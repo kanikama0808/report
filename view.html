@@ -153,7 +153,7 @@
 
   async function main(){
     // cache回避（更新後に古いJSONが出るのを防ぐ）
-    const res = await fetch("data/latest.json?ts=" + Date.now());
+    const res = await fetch("datalatest.json?ts=" + Date.now());
     if(!res.ok) throw new Error("latest.json を取得できませんでした");
     const state = await res.json();
 
