@@ -1,9 +1,220 @@
-/ (repo root)
-  index.html
-  page2.html
-  print.html
-  common.js
-  view.html            ← 追加（閲覧専用）
-  /data
-    latest.json        ← 追加（毎回ここを差し替え）
-  hb_monthly_report_2025-12.json（残してOK/任意）
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>法人活動（閲覧）</title>
+  <style>
+    :root{ --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --soft:#f1f5f9; --blue:#2563eb; --radius:14px; }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;overflow-x:hidden;}
+    body{font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;background:#0b1220;color:var(--ink);}
+    .app{width:100%;background:#fff;border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,255,255,.15);}
+    .top{background:linear-gradient(90deg,#0f172a,#101c38);color:#fff;padding:14px 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+    .badge{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);font-weight:900;font-size:12px;white-space:nowrap;}
+    .wrap{padding:16px;background:linear-gradient(180deg,#fff,#f8fafc);display:grid;gap:14px;}
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px;}
+
+    .summaryBox{border:1px solid var(--line);border-radius:14px;padding:12px;}
+    .summaryBox .cap{font-size:12px;font-weight:900;margin:0 0 10px 0;color:var(--muted);}
+    .summaryBox.month{background:#eff6ff;border-color:#bfdbfe;}
+    .summaryBox.cum{background:#ecfdf5;border-color:#bbf7d0;}
+    .kpiGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:stretch;}
+    .mini{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:linear-gradient(180deg,#fff,#f8fafc);min-width:0;}
+    .mini .t{font-size:11px;font-weight:900;color:var(--muted);line-height:1.25;word-break:break-word;}
+    .mini .v{margin-top:8px;font-size:20px;font-weight:900;letter-spacing:.2px;}
+
+    table{width:100%;border-collapse:collapse;table-layout:fixed;}
+    th,td{border:1px solid var(--line);padding:6px;font-size:12px;vertical-align:top;word-break:break-word;}
+    th{background:#0f172a;color:#fff;text-align:left;white-space:nowrap;font-weight:900;}
+    .muted{color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div>
+      <b>BUSINESS MONTHLY REPORT</b><br/>
+      <span style="opacity:.9;font-size:12px;font-weight:900;">法人活動</span>
+      <span id="monthLabel" style="opacity:.85;font-size:12px;margin-left:8px;padding:4px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);">—</span>
+    </div>
+    <div class="badge">
+      <span>閲覧専用</span>
+      <span id="genLabel" style="opacity:.85;">—</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="summaryBox month">
+        <div class="cap">当月サマリー</div>
+        <div class="kpiGrid">
+          <div class="mini"><div class="t">法人来場（提携合計）</div><div class="v" id="s_cv">—</div></div>
+          <div class="mini"><div class="t">法人契約（提携合計）</div><div class="v" id="s_cc">—</div></div>
+          <div class="mini"><div class="t">PR費用 合計</div><div class="v" id="s_cost">—</div></div>
+          <div class="mini"><div class="t">来場CPA（合計）</div><div class="v" id="s_cpa">—</div></div>
+          <div class="mini"><div class="t">契約単価（合計）</div><div class="v" id="s_cpp">—</div></div>
+        </div>
+      </div>
+
+      <div class="summaryBox cum" style="margin-top:12px;">
+        <div class="cap">累計（〜当月）</div>
+        <div class="kpiGrid">
+          <div class="mini"><div class="t">法人来場（累計）</div><div class="v" id="c_cv">—</div></div>
+          <div class="mini"><div class="t">法人契約（累計）</div><div class="v" id="c_cc">—</div></div>
+          <div class="mini"><div class="t">PR費用（累計）</div><div class="v" id="c_cost">—</div></div>
+          <div class="mini"><div class="t">来場CPA（累計）</div><div class="v" id="c_cpa">—</div></div>
+          <div class="mini"><div class="t">契約単価（累計）</div><div class="v" id="c_cpp">—</div></div>
+        </div>
+      </div>
+
+      <div class="muted" style="margin-top:8px;">※ 表示データ：<code>data/latest.json</code></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 10px 0;">現提携（活動・PR・単価）</h3>
+      <table>
+        <colgroup>
+          <col style="width:34%"><col style="width:9%"><col style="width:9%"><col style="width:26%"><col style="width:11%"><col style="width:11%">
+        </colgroup>
+        <thead>
+          <tr><th>企業名</th><th>来場</th><th>契約</th><th>PR内容</th><th>費用</th><th>特典/手数料</th></tr>
+        </thead>
+        <tbody id="partnerRows"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 10px 0;">法人業務提携（予定・交渉中）</h3>
+      <table>
+        <colgroup>
+          <col style="width:30%"><col style="width:18%"><col style="width:52%">
+        </colgroup>
+        <thead>
+          <tr><th>企業名</th><th>企業規模</th><th>提案内容 / 予定時期</th></tr>
+        </thead>
+        <tbody id="plannedRows"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const nf = new Intl.NumberFormat("ja-JP");
+  const fmt0 = (n)=> nf.format(Number.isFinite(n)?n:0);
+  const fmt1 = (n)=> (Number.isFinite(n)?n:0).toFixed(1);
+  const clamp0 = (v)=> {
+    const n = Number(v);
+    return Number.isFinite(n) && n>0 ? n : 0;
+  };
+  const esc = (s)=> String(s??"")
+    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+
+  function ymLabelFromMeta(meta){
+    const iso = meta && meta.periodStart ? meta.periodStart : "";
+    const p = String(iso).split("-");
+    if(p.length>=2) return `${p[0]}年${p[1]}月`;
+    return "—";
+  }
+  function ymFromMeta(meta){
+    const iso = meta && meta.periodStart ? meta.periodStart : "";
+    const p = String(iso).split("-");
+    if(p.length>=2) return `${p[0]}-${p[1]}`;
+    return "";
+  }
+
+  function sumPartners(partners){
+    const totalCost = (partners||[]).reduce((s,p)=> s + clamp0(p && p.cost), 0);
+    const totalVisit = (partners||[]).reduce((s,p)=> s + clamp0(p && p.visit), 0);
+    const totalContract = (partners||[]).reduce((s,p)=> s + clamp0(p && (p.contract ?? p.corpContract)), 0);
+    const visitCpa = totalVisit>0 ? totalCost/totalVisit : 0;
+    const contractUnit = totalContract>0 ? totalCost/totalContract : 0;
+    return { totalCost, totalVisit, totalContract, visitCpa, contractUnit };
+  }
+
+  function computeCumulative(state, uptoYM){
+    const arc = state && state.archive ? state.archive : null;
+    if(!arc) return null;
+
+    const keys = Object.keys(arc).filter(k => k <= uptoYM).sort();
+    let cost=0, visit=0, contract=0;
+    keys.forEach(k=>{
+      const partners = arc[k] && arc[k].partners ? arc[k].partners : [];
+      const s = sumPartners(partners);
+      cost += s.totalCost; visit += s.totalVisit; contract += s.totalContract;
+    });
+    return {
+      cost, visit, contract,
+      visitCpa: visit>0 ? cost/visit : 0,
+      contractUnit: contract>0 ? cost/contract : 0
+    };
+  }
+
+  async function main(){
+    // cache回避（更新後に古いJSONが出るのを防ぐ）
+    const res = await fetch("data/latest.json?ts=" + Date.now());
+    if(!res.ok) throw new Error("latest.json を取得できませんでした");
+    const state = await res.json();
+
+    document.getElementById("monthLabel").textContent = ymLabelFromMeta(state.meta);
+    document.getElementById("genLabel").textContent = "更新: " + new Date().toLocaleString("ja-JP");
+
+    const month = sumPartners(state.partners || []);
+    document.getElementById("s_cv").textContent   = fmt0(month.totalVisit);
+    document.getElementById("s_cc").textContent   = fmt0(month.totalContract);
+    document.getElementById("s_cost").textContent = fmt0(month.totalCost);
+    document.getElementById("s_cpa").textContent  = fmt1(month.visitCpa);
+    document.getElementById("s_cpp").textContent  = fmt1(month.contractUnit);
+
+    const ym = ymFromMeta(state.meta);
+    const cum = computeCumulative(state, ym);
+
+    if(cum){
+      document.getElementById("c_cv").textContent   = fmt0(cum.visit);
+      document.getElementById("c_cc").textContent   = fmt0(cum.contract);
+      document.getElementById("c_cost").textContent = fmt0(cum.cost);
+      document.getElementById("c_cpa").textContent  = fmt1(cum.visitCpa);
+      document.getElementById("c_cpp").textContent  = fmt1(cum.contractUnit);
+    }else{
+      // archiveが無い場合は “—” のまま（誤表示しない）
+    }
+
+    const pb = document.getElementById("partnerRows");
+    pb.innerHTML = "";
+    (state.partners || []).forEach(p=>{
+      const benefit = clamp0(p.benefit);
+      const fee = clamp0(p.fee);
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${esc(p.name||"")}</td>
+        <td style="text-align:right;">${fmt0(clamp0(p.visit))}</td>
+        <td style="text-align:right;">${fmt0(clamp0(p.contract))}</td>
+        <td>${esc(p.pr||"")}</td>
+        <td style="text-align:right;">${fmt0(clamp0(p.cost))}</td>
+        <td>${benefit?("特典:"+fmt0(benefit)):""}${(benefit&&fee)?" / ":""}${fee?("手数料:"+fmt0(fee)):""}</td>
+      `;
+      pb.appendChild(tr);
+    });
+
+    const plb = document.getElementById("plannedRows");
+    plb.innerHTML = "";
+    (state.planned || []).forEach(p=>{
+      const tail = [p.proposal||"", p.schedule?("予定:"+p.schedule):""].filter(Boolean).join(" / ");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${esc(p.name||"")}</td>
+        <td>${esc(p.companySize||"")}</td>
+        <td>${esc(tail)}</td>
+      `;
+      plb.appendChild(tr);
+    });
+  }
+
+  main().catch(err=>{
+    alert("表示に失敗しました： " + err.message);
+    console.error(err);
+  });
+</script>
+</body>
+</html>
