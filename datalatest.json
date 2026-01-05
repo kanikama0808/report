@@ -9,7 +9,7 @@
   },
   "perf": {
     "totalVisit": 85,
-    "totalContract": 4,
+    "totalContract": 12,
     "corpVisit": 5,
     "corpContract": 1,
     "referralCards": 3
@@ -29,8 +29,8 @@
     "referralCards": 0
   },
   "nextTarget": {
-    "totalVisit": 0,
-    "totalContract": 0,
+    "totalVisit": 148,
+    "totalContract": 26,
     "corpVisit": 12,
     "corpContract": 3,
     "referralCards": 4
