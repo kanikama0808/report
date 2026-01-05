@@ -17,26 +17,22 @@
       --line: #cbd5e1;
       --white: #ffffff;
 
-      /* セクション別テーマカラー（彩度を調整して視認性向上） */
-      /* A: 当月実績 (Teal/Emerald - 達成感) */
-      --c-cur-bg: #f0fdfa; --c-cur-bd: #99f6e4; --c-cur-tx: #0d9488;
+      /* 強調用カラー（実績・目標） */
+      --acc-main-bg: #f0f9ff; 
+      --acc-main-bd: #3b82f6; 
+      --acc-main-tx: #1e40af;
+
+      /* 控えめ用カラー（過去実績） */
+      --acc-sub-bg: #ffffff;
+      --acc-sub-bd: #e2e8f0;
+      --acc-sub-tx: #64748b;
+
+      /* 入力項目の色分け（メインのみ適用） */
+      --inp-visit-bg: #e0f2fe; --inp-visit-bd: #7dd3fc;
+      --inp-contr-bg: #ffe4e6; --inp-contr-bd: #fda4af;
       
-      /* B: KPI (Blue - 分析) */
-      --c-kpi-bg: #eff6ff; --c-kpi-bd: #bfdbfe; --c-kpi-tx: #2563eb;
-
-      /* C: グラフ (Slate/Gray - ニュートラル) */
-      --c-grp-bg: #ffffff; --c-grp-bd: #e2e8f0; --c-grp-tx: #475569;
-
-      /* D: 提携 (Orange/Amber - 活気) */
-      --c-ptn-bg: #fff7ed; --c-ptn-bd: #fed7aa; --c-ptn-tx: #ea580c;
-
-      /* E: 次月 (Violet/Indigo - 未来) */
-      --c-nxt-bg: #f5f3ff; --c-nxt-bd: #ddd6fe; --c-nxt-tx: #7c3aed;
-      
-      /* 入力項目の色分け（視覚的ガイダンス） */
-      --inp-visit-bg: #f0f9ff; --inp-visit-bd: #bae6fd; /* 来場: 水色系 */
-      --inp-contr-bg: #fff1f2; --inp-contr-bd: #fecdd3; /* 契約: 赤系 */
-      --inp-other-bg: #ffffff; --inp-other-bd: #cbd5e1; /* その他: 白 */
+      /* 控えめ時の入力項目 */
+      --inp-mute-bg: #f8fafc; --inp-mute-bd: #e2e8f0;
 
       --radius: 12px;
       --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
@@ -114,7 +110,6 @@
     /* Row 3: Partners (Complex) */
     .row-partners{
       display: grid; grid-template-columns: 300px 1fr; gap: 20px;
-      /* 左:会社数, 右:グラフ+テーブル */
     }
     @media (max-width: 1000px){ .row-partners{ grid-template-columns: 1fr; } }
 
@@ -132,35 +127,43 @@
     }
     .card-title{
       font-size: 16px; font-weight: 800; display:flex; align-items:center; gap:8px; margin:0;
+      color: var(--ink);
     }
     .card-sub{ font-size: 11px; font-weight: 600; color: var(--muted); }
     
-    /* Theme Variations */
-    .theme-cur { border-top: 4px solid var(--c-cur-tx); background: linear-gradient(to bottom, var(--c-cur-bg), #fff 15%); }
-    .theme-cur .card-title { color: var(--c-cur-tx); }
+    /* Theme Variations (Header lines) */
+    .theme-blue { border-top: 4px solid #3b82f6; }
+    .theme-orange { border-top: 4px solid #f97316; }
+    .theme-purple { border-top: 4px solid #8b5cf6; }
 
-    .theme-kpi { border-top: 4px solid var(--c-kpi-tx); background: linear-gradient(to bottom, var(--c-kpi-bg), #fff 15%); }
-    .theme-kpi .card-title { color: var(--c-kpi-tx); }
-
-    .theme-grp { border-top: 4px solid var(--c-grp-tx); }
-    .theme-grp .card-title { color: var(--c-grp-tx); }
-
-    .theme-ptn { border-top: 4px solid var(--c-ptn-tx); background: linear-gradient(to bottom, var(--c-ptn-bg), #fff 15%); }
-    .theme-ptn .card-title { color: var(--c-ptn-tx); }
-
-    .theme-nxt { border-top: 4px solid var(--c-nxt-tx); background: linear-gradient(to bottom, var(--c-nxt-bg), #fff 15%); }
-    .theme-nxt .card-title { color: var(--c-nxt-tx); }
-
-    /* --- Metric Inputs --- */
+    /* --- Metric Groups (New Design) --- */
     .metric-group{
-      display: flex; flex-direction: column; gap: 12px;
-      background: rgba(255,255,255,0.6);
-      border: 1px solid rgba(0,0,0,0.05);
-      border-radius: 12px; padding: 12px;
+      display: flex; flex-direction: column; gap: 10px;
+      border-radius: 12px; padding: 14px;
+      transition: .2s;
     }
+    
+    /* Highlight (Main Data) */
+    .metric-group.highlight{
+      background: var(--acc-main-bg);
+      border: 2px solid var(--acc-main-bd);
+      box-shadow: 0 4px 10px -2px rgba(59,130,246,0.15);
+    }
+    .metric-group.highlight .mg-title{ color: var(--acc-main-tx); font-size: 14px; }
+    .metric-group.highlight .mg-period{ background: #fff; border-color: var(--acc-main-bd); color: var(--acc-main-tx); }
+
+    /* Passive (Past Data) */
+    .metric-group.passive{
+      background: var(--acc-sub-bg);
+      border: 1px dashed var(--acc-sub-bd);
+      opacity: 0.95;
+    }
+    .metric-group.passive .mg-title{ color: var(--acc-sub-tx); font-size: 13px; }
+    .metric-group.passive .mg-period{ background: #f8fafc; color: var(--muted); }
+
     .mg-header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; }
-    .mg-title{ font-size:13px; font-weight:800; color:var(--ink); }
-    .mg-period{ font-size:10px; font-weight:700; color:var(--muted); background:#fff; padding:2px 6px; border-radius:4px; border:1px solid #e2e8f0; }
+    .mg-title{ font-weight:800; }
+    .mg-period{ font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0; }
 
     .metric-grid{
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
@@ -174,42 +177,49 @@
       position: relative; display: flex; align-items: center;
     }
     .mi-input-wrap input{
-      width: 100%; border: 1px solid var(--inp-other-bd); border-radius: 6px;
-      padding: 8px 24px 8px 8px; /* space for unit */
+      width: 100%; border: 1px solid var(--line); border-radius: 6px;
+      padding: 8px 24px 8px 8px;
       text-align: right; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px;
-      background: var(--inp-other-bg); outline: none; transition: .2s; color: var(--ink);
+      outline: none; transition: .2s; color: var(--ink);
     }
-    .mi-input-wrap input:focus{ border-color: var(--c-kpi-tx); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
     .mi-input-wrap .unit{
       position: absolute; right: 8px; font-size: 10px; font-weight: 700; color: #94a3b8; pointer-events: none;
     }
     
-    /* 色分け強化 */
-    .type-visit input { background: var(--inp-visit-bg); border-color: var(--inp-visit-bd); }
-    .type-contr input { background: var(--inp-contr-bg); border-color: var(--inp-contr-bd); }
+    /* Input Colors - Highlight Mode */
+    .highlight .type-visit input { background: var(--inp-visit-bg); border-color: var(--inp-visit-bd); }
+    .highlight .type-visit input:focus { box-shadow: 0 0 0 3px rgba(14,165,233,0.15); }
+    .highlight .type-contr input { background: var(--inp-contr-bg); border-color: var(--inp-contr-bd); }
+    .highlight .type-contr input:focus { box-shadow: 0 0 0 3px rgba(244,63,94,0.15); }
+    .highlight .type-other input { background: #fff; border-color: #cbd5e1; }
+
+    /* Input Colors - Passive Mode */
+    .passive input { background: var(--inp-mute-bg); border-color: var(--inp-mute-bd); color: #475569; }
+    .passive input:focus { background: #fff; border-color: #94a3b8; }
+    .passive .mi-label { opacity: 0.8; }
 
     /* --- KPI Dashboard --- */
     .kpi-grid{
       display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 100%;
     }
     .kpi-card{
-      background: #fff; border: 1px solid var(--c-kpi-bd); border-radius: 10px;
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
       padding: 16px; text-align: center;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
-      box-shadow: 0 2px 4px rgba(37,99,235,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
     }
     .kpi-label{ font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
-    .kpi-value{ font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 32px; color: var(--c-kpi-tx); line-height: 1; }
+    .kpi-value{ font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 32px; color: #2563eb; line-height: 1; }
     .kpi-unit{ font-size: 12px; font-weight: 700; color: #94a3b8; margin-left: 2px; }
     .kpi-delta{ margin-top: 8px; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #f8fafc; }
     .delta-good{ color: #16a34a; background: #dcfce7; }
     .delta-bad { color: #dc2626; background: #fee2e2; }
 
-    /* --- Highlights (Partner Counts) --- */
+    /* --- Highlights --- */
     .hl-box{
-      background: #fff; border: 1px solid var(--c-ptn-bd); border-radius: 10px;
+      background: #fff; border: 1px solid #fed7aa; border-radius: 10px;
       padding: 12px; display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 10px; border-left: 4px solid #f97316;
     }
     .hl-left{ display:flex; flex-direction:column; }
     .hl-label{ font-size:11px; font-weight:700; color:var(--muted); }
@@ -218,20 +228,20 @@
       width: 100px; outline:none;
     }
     .hl-val-inp:focus{ background:#fff7ed; border-radius:4px; }
-    .hl-badge{ font-size:10px; font-weight:800; color:#fff; background:var(--c-ptn-tx); padding:2px 8px; border-radius:4px; }
+    .hl-badge{ font-size:10px; font-weight:800; color:#fff; background:#f97316; padding:2px 8px; border-radius:4px; width:fit-content; }
 
     /* --- Table --- */
     .tbl-wrap{ overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
     table{ width: 100%; border-collapse: collapse; min-width: 600px; }
     th{
-      background: var(--c-ptn-tx); color: #fff; font-size: 11px; padding: 10px; text-align: left; white-space: nowrap;
+      background: #f97316; color: #fff; font-size: 11px; padding: 10px; text-align: left; white-space: nowrap;
     }
     td{ border-bottom: 1px solid var(--line); padding: 6px; font-size: 13px; background: #fff; }
     td input{ width: 100%; border: 1px solid transparent; padding: 4px; border-radius: 4px; font-size: 13px; }
-    td input:focus{ border-color: var(--c-ptn-tx); background: #fff7ed; outline:none; }
+    td input:focus{ border-color: #f97316; background: #fff7ed; outline:none; }
     td.num-cell input{ text-align: center; font-family: 'Montserrat',sans-serif; font-weight: 700; }
     
-    tfoot td{ background: #fff7ed; font-weight: 800; color: var(--c-ptn-tx); border-top: 2px solid var(--c-ptn-bd); text-align: center; }
+    tfoot td{ background: #fff7ed; font-weight: 800; color: #c2410c; border-top: 2px solid #fed7aa; text-align: center; }
     tfoot td.label{ text-align: right; color: var(--muted); padding-right: 12px; }
 
     .del-btn{
@@ -257,9 +267,11 @@
       .card{ break-inside: avoid; border: 1px solid #ccc; box-shadow: none; padding: 10px; margin-bottom: 10px; }
       .row-split, .row-tri, .row-partners{ display: grid; gap: 10px; }
       .metric-group{ border:1px solid #ddd; padding:5px; }
+      .metric-group.highlight { border: 2px solid #000; }
+      .metric-group.passive { border: 1px dashed #999; }
       input{ border:none !important; background:transparent !important; padding:0 !important; }
       .mi-input-wrap input{ text-align: right; }
-      .row-tri { grid-template-columns: 1fr 1fr 1fr !important; } /* Force 3 cols on print */
+      .row-tri { grid-template-columns: 1fr 1fr 1fr !important; }
     }
   </style>
 </head>
@@ -300,14 +312,14 @@
   <div class="main-grid">
     
     <div class="row-split">
-      <div class="card theme-cur">
+      <div class="card theme-blue">
         <div class="card-head">
           <h2 class="card-title">当月実績・過去実績</h2>
           <span class="card-sub" id="lblRangeCur">-</span>
         </div>
         
-        <div class="row-split" style="gap:10px;">
-          <div class="metric-group">
+        <div class="row-split" style="gap:14px;">
+          <div class="metric-group highlight">
             <div class="mg-header">
               <span class="mg-title">当月実績</span>
               <span class="mg-period" id="lblPeriodCur">-</span>
@@ -329,14 +341,14 @@
                 <span class="mi-label">法人契約</span>
                 <div class="mi-input-wrap"><input type="number" id="v_corpContract" min="0"><span class="unit">件</span></div>
               </div>
-              <div class="metric-item" style="grid-column:1/-1;">
+              <div class="metric-item type-other" style="grid-column:2;">
                 <span class="mi-label">紹介カード</span>
                 <div class="mi-input-wrap"><input type="number" id="v_referralCards" min="0"><span class="unit">枚</span></div>
               </div>
             </div>
           </div>
 
-          <div class="metric-group">
+          <div class="metric-group passive">
             <div class="mg-header">
               <span class="mg-title">前年同月</span>
               <span class="mg-period" id="lblPeriodLY">-</span>
@@ -358,7 +370,7 @@
                 <span class="mi-label">法人契約</span>
                 <div class="mi-input-wrap"><input type="number" id="ly_corpContract" min="0"><span class="unit">件</span></div>
               </div>
-              <div class="metric-item" style="grid-column:1/-1;">
+              <div class="metric-item type-other" style="grid-column:2;">
                 <span class="mi-label">紹介カード</span>
                 <div class="mi-input-wrap"><input type="number" id="ly_referralCards" min="0"><span class="unit">枚</span></div>
               </div>
@@ -367,7 +379,7 @@
         </div>
       </div>
 
-      <div class="card theme-kpi">
+      <div class="card theme-blue">
         <div class="card-head">
           <h2 class="card-title">主要KPIダッシュボード</h2>
           <span class="card-sub">対前年比</span>
@@ -398,21 +410,21 @@
     </div>
 
     <div class="row-tri">
-      <div class="card theme-grp">
+      <div class="card theme-blue">
         <div class="card-head"><h2 class="card-title">KPI比較 (当月vs前年)</h2></div>
         <div class="chart-box"><canvas id="chartKPI"></canvas></div>
       </div>
-      <div class="card theme-grp">
+      <div class="card theme-blue">
         <div class="card-head"><h2 class="card-title">ファネル (歩留り)</h2></div>
         <div class="chart-box"><canvas id="chartFunnel"></canvas></div>
       </div>
-      <div class="card theme-grp">
+      <div class="card theme-blue">
         <div class="card-head"><h2 class="card-title">法人比率 (来場)</h2></div>
         <div class="chart-box"><canvas id="chartShare"></canvas></div>
       </div>
     </div>
 
-    <div class="card theme-ptn">
+    <div class="card theme-orange">
       <div class="card-head">
         <h2 class="card-title">提携会社情報</h2>
         <span class="card-sub" id="badgeCoverage">-</span>
@@ -428,7 +440,7 @@
              <div class="hl-left"><span class="hl-label">対象企業数</span><span class="hl-badge">TARGETS</span></div>
              <input type="number" id="targetCount" class="hl-val-inp" value="0">
            </div>
-           <div style="flex:1; border:1px solid var(--line); border-radius:10px; padding:10px; background:#fff;">
+           <div style="flex:1; border:1px solid #fed7aa; border-radius:10px; padding:10px; background:#fff;">
              <span class="hl-label">提携先上位 (活動状況)</span>
              <div style="height:180px; position:relative; width:100%;">
                <canvas id="chartPartners"></canvas>
@@ -439,7 +451,7 @@
         <div style="display:flex; flex-direction:column; gap:10px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
              <span class="hl-label">提携先実績入力</span>
-             <button class="btn primary" id="btnAddRow" style="padding:4px 10px; font-size:11px;">+ 行追加</button>
+             <button class="btn primary" id="btnAddRow" style="padding:4px 10px; font-size:11px; background:#f97316; border-color:#f97316;">+ 行追加</button>
           </div>
           <div class="tbl-wrap">
             <table>
@@ -480,14 +492,14 @@
       </div>
     </div>
 
-    <div class="card theme-nxt">
+    <div class="card theme-purple">
       <div class="card-head">
         <h2 class="card-title">次月戦略 (過去実績・目標)</h2>
         <span class="card-sub">Next Month Strategy</span>
       </div>
 
       <div class="row-split">
-        <div class="metric-group">
+        <div class="metric-group passive">
           <div class="mg-header">
             <span class="mg-title">次月過去実績</span>
             <span class="mg-period" id="lblPeriodNextPast">-</span>
@@ -509,7 +521,7 @@
               <span class="mi-label">法人契約</span>
               <div class="mi-input-wrap"><input type="number" id="nm_corpContract" min="0"><span class="unit">件</span></div>
             </div>
-            <div class="metric-item" style="grid-column:1/-1;">
+            <div class="metric-item type-other" style="grid-column: 2;">
               <span class="mi-label">紹介カード</span>
               <div class="mi-input-wrap"><input type="number" id="nm_referralCards" min="0"><span class="unit">枚</span></div>
             </div>
@@ -526,7 +538,7 @@
           </div>
         </div>
 
-        <div class="metric-group">
+        <div class="metric-group highlight">
           <div class="mg-header">
             <span class="mg-title">次月目標</span>
             <span class="mg-period" id="lblPeriodNextTarget">-</span>
@@ -548,7 +560,7 @@
               <span class="mi-label">法人契約 (目標)</span>
               <div class="mi-input-wrap"><input type="number" id="tg_corpContract" min="0"><span class="unit">件</span></div>
             </div>
-            <div class="metric-item" style="grid-column:1/-1;">
+            <div class="metric-item type-other" style="grid-column: 2;">
               <span class="mi-label">紹介カード (目標)</span>
               <div class="mi-input-wrap"><input type="number" id="tg_referralCards" min="0"><span class="unit">枚</span></div>
             </div>
@@ -568,7 +580,7 @@
       </div>
     </div>
 
-    <div class="card theme-grp">
+    <div class="card theme-blue">
       <div class="card-head"><h2 class="card-title">Topics / Memo</h2></div>
       <textarea id="topics" class="topic-area" placeholder="・今月の特筆事項&#10;・新規提携企業の反応&#10;・次月へのアクション"></textarea>
     </div>
