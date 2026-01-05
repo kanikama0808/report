@@ -6,17 +6,7 @@
   <title>HB Monthly Report - Page2</title>
   <style>
     :root{
-      /* ベースカラー */
-      --ink:#0f172a; 
-      --muted:#64748b; 
-      --line:#cbd5e1; /* 枠線を少し濃くして視認性UP */
-      
-      /* テーマカラー (背景用薄色 & 枠線) */
-      --bg-blue:#eff6ff;   --bd-blue:#bfdbfe;
-      --bg-green:#f0fdf4;  --bd-green:#bbf7d0;
-      --bg-indigo:#eef2ff; --bd-indigo:#c7d2fe;
-      
-      --radius:14px;
+      --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --soft:#f1f5f9; --blue:#2563eb; --radius:14px;
     }
     *{box-sizing:border-box}
     html, body{ margin:0; padding:0; overflow-x:hidden; }
@@ -26,10 +16,11 @@
       color:var(--ink);
     }
 
+    /* 画面幅100%にフィット */
     .app{
       width:100%;
       max-width:none;
-      background:#f8fafc; /* 全体背景をわずかにグレーに */
+      background:#fff;
       border-radius:var(--radius);
       overflow:hidden;
       border:1px solid rgba(255,255,255,.15);
@@ -37,150 +28,187 @@
 
     /* --- header --- */
     .top{
-      background:linear-gradient(90deg,#0f172a,#1e293b);
+      background:linear-gradient(90deg,#0f172a,#101c38);
       color:#fff;
       padding:14px 16px;
-      display:flex; gap:12px; flex-wrap:wrap;
-      align-items:center; justify-content:space-between;
-      border-bottom:1px solid #334155;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
     }
     .nav{
-      display:flex; gap:8px; flex-wrap:wrap;
-      align-items:center; justify-content:flex-end;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
     }
     .tab{
-      color:#cbd5e1;
-      text-decoration:none; font-weight:800; font-size:12px;
-      padding:8px 12px; border-radius:999px;
-      border:1px solid transparent;
-      transition: .2s;
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      white-space:nowrap;
     }
-    .tab:hover{ color:#fff; background:rgba(255,255,255,.1); }
-    .tab.active{ 
-      background:rgba(37,99,235,.9); 
-      color:#fff; 
-      border-color:rgba(60,130,246,.5);
-      box-shadow: 0 0 10px rgba(37,99,235,0.4);
-    }
-    
+    .tab.active{ background:rgba(37,99,235,.92); border-color:rgba(37,99,235,1); }
     .chip{
-      display:flex; gap:10px; align-items:center;
-      padding:6px 12px; border-radius:999px;
-      border:1px solid #475569; background:#1e293b;
-      font-weight:700; font-size:12px; color:#e2e8f0;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      font-weight:800;
+      font-size:12px;
+      white-space:nowrap;
     }
 
     /* --- buttons --- */
     .btn{
-      cursor:pointer; border:none; padding:8px 12px;
-      border-radius:8px; font-weight:700;
-      background:#e2e8f0; color:#334155;
-      transition:.2s;
+      cursor:pointer;
+      border:none;
+      padding:9px 10px;
+      border-radius:12px;
+      font-weight:900;
+      background:var(--soft);
+      white-space:nowrap;
     }
-    .btn:hover{ background:#cbd5e1; }
-    .btn.primary{ background:#2563eb; color:#fff; box-shadow:0 2px 5px rgba(37,99,235,0.3); }
-    .btn.primary:hover{ background:#1d4ed8; }
-    .btn.small{ padding:6px 10px; border-radius:999px; font-size:11px; }
+    .btn.primary{ background:rgba(37,99,235,.92); color:#fff; }
+    .btn.small{ padding:7px 9px; border-radius:999px; font-size:12px; }
 
     /* --- layout --- */
     .wrap{
-      padding:20px;
-      display:grid; gap:20px;
+      padding:16px;
+      background:linear-gradient(180deg,#fff,#f8fafc);
+      display:grid;
+      gap:14px;
     }
-    
-    /* カードの共通スタイル */
     .card{
       background:#fff;
       border:1px solid var(--line);
       border-radius:var(--radius);
-      padding:16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      padding:14px;
     }
-    
-    /* テーマ別カード装飾 */
-    .card.theme-summray { background:#fff; border-top:4px solid #64748b; }
-    .card.theme-partners{ background:var(--bg-blue); border:1px solid var(--bd-blue); border-top:4px solid #3b82f6; }
-    .card.theme-planned { background:var(--bg-green); border:1px solid var(--bd-green); border-top:4px solid #22c55e; }
-
     .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    h3 { font-size:15px; font-weight:800; color:#1e293b; display:flex; align-items:center; gap:8px; }
 
     /* --- summary --- */
     .summaryBox{
-      border:1px solid; border-radius:12px; padding:14px; margin-bottom:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
     }
     .summaryBox .cap{
-      font-size:12px; font-weight:900; margin:0 0 10px 0;
-      display:flex; align-items:center; gap:6px;
+      font-size:12px;
+      font-weight:900;
+      margin:0 0 10px 0;
+      color:var(--muted);
     }
-    /* 色分け強化 */
-    .summaryBox.month{ 
-      background:#eff6ff; border-color:#bfdbfe; color:#1e40af; 
-    }
-    .summaryBox.month .cap{ color:#1e3a8a; }
-    
-    .summaryBox.cum{   
-      background:#ecfdf5; border-color:#bbf7d0; color:#065f46; 
-    }
-    .summaryBox.cum .cap{ color:#064e3b; }
+    /* 色合いは維持 */
+    .summaryBox.month{ background:#eff6ff; border-color:#bfdbfe; }
+    .summaryBox.cum{   background:#ecfdf5; border-color:#bbf7d0; }
 
+    /* ★必ず1行（5枚）に固定。スクロールは出さない */
     .kpiGrid{
-      display:grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap:10px;
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap:12px;
+      align-items:stretch;
     }
     .mini{
-      background:#fff; border-radius:10px; padding:10px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      border:1px solid rgba(0,0,0,0.05);
-      text-align:center;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      background:linear-gradient(180deg,#fff,#f8fafc);
+      min-width:0; /* これがないと潰れない */
     }
-    .mini .t{ font-size:10px; font-weight:700; opacity:0.7; margin-bottom:4px; }
-    .mini .v{ font-size:18px; font-weight:900; }
+    .mini .t{
+      font-size:11px;
+      font-weight:900;
+      color:var(--muted);
+      line-height:1.25;
+      word-break:break-word;
+    }
+    .mini .v{
+      margin-top:8px;
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
 
+    /* 画面が狭い時でも「1行」を守るために、少しだけ圧縮 */
+    @media (max-width: 1100px){
+      .kpiGrid{ gap:10px; }
+      .mini{ padding:9px 10px; }
+      .mini .v{ font-size:18px; }
+    }
     @media (max-width: 900px){
-      .kpiGrid{ gap:6px; }
-      .mini .v{ font-size:15px; }
+      .kpiGrid{ gap:8px; }
+      .mini{ padding:8px 9px; border-radius:12px; }
+      .mini .t{ font-size:10px; }
+      .mini .v{ font-size:16px; }
     }
 
-    /* --- tables --- */
+    /* --- tables: 横スクロール無しで必ず収める --- */
     .tbl{
-      border:1px solid rgba(0,0,0,0.1);
-      border-radius:12px; overflow:hidden;
-      background:#fff; /* テーブル自体は白背景で見やすく */
-      box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;     /* スクロールさせない */
+      max-width:100%;
     }
     table{ width:100%; border-collapse:collapse; table-layout:fixed; }
-    
-    th {
-      font-size:11px; padding:10px 8px; text-align:left; font-weight:700;
-      color:#fff; border-right:1px solid rgba(255,255,255,0.1);
+    th, td{
+      border:1px solid var(--line);
+      padding:6px;
+      font-size:12px;
+      vertical-align:top;
     }
-    /* テーブルヘッダーの色分け */
-    .theme-partners th { background:#3b82f6; }
-    .theme-planned  th { background:#22c55e; }
+    th{
+      background:#0f172a;
+      color:#fff;
+      text-align:left;
+      white-space:nowrap;
+      font-weight:900;
+    }
+    td{ overflow:hidden; }
+    td, th{ word-break:break-word; }
 
-    td{
-      border:1px solid #e2e8f0; padding:6px; font-size:13px; vertical-align:middle;
-      color:#334155;
-    }
-    
-    /* 入力欄のデザイン */
+    /* 入力欄が押し出して横幅超過するのを防止 */
     input, textarea{
-      width:100%; border:1px solid #cbd5e1; border-radius:6px;
-      padding:6px 8px; font-weight:600; font-size:13px; color:#0f172a;
-      background:#fff; transition:.15s;
+      width:100%;
+      min-width:0;
+      max-width:100%;
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:6px 8px;
+      font-weight:800;
+      background:#fff;
     }
-    input:focus{
-      border-color:#3b82f6; outline:none; box-shadow:0 0 0 2px rgba(59,130,246,0.2);
+    input[type="number"]{ text-align:right; padding:6px 6px; }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button{
+      -webkit-appearance:none; margin:0;
     }
-    input[type="number"]{ text-align:right; font-family:'Montserrat', sans-serif; }
+    input[type="number"]{ -moz-appearance:textfield; }
 
     /* --- icon button --- */
     .iconbtn{
-      cursor:pointer; border:none; background:transparent; padding:6px;
-      border-radius:6px; color:#94a3b8; display:inline-flex;
+      cursor:pointer;
+      border:none;
+      background:transparent;
+      padding:6px;
+      border-radius:10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
-    .iconbtn:hover{ background:#f1f5f9; color:#ef4444; }
-    .icon{ width:18px; height:18px; stroke-width:2; }
+    .iconbtn:hover{ background:var(--soft); }
+    .icon{ width:16px; height:16px; display:block; }
   </style>
 </head>
 
@@ -188,15 +216,16 @@
 <div class="app">
   <div class="top">
     <div>
-      <b style="letter-spacing:1px;">BUSINESS MONTHLY REPORT</b><br/>
-      <div style="display:flex; gap:10px; align-items:baseline; margin-top:4px;">
-        <span style="opacity:.8; font-size:11px; font-weight:700;">法人活動詳細</span>
-        <span id="monthLabel" 
-              style="font-size:12px; padding:2px 10px; border-radius:4px; 
-                     background:rgba(255,255,255,0.15); font-weight:700;">
-          —
-        </span>
-      </div>
+      <b>BUSINESS MONTHLY REPORT</b><br/>
+<div style="display:flex; gap:10px; align-items:baseline; flex-wrap:wrap;">
+  <span style="opacity:.9;font-size:12px;font-weight:900;">法人活動</span>
+  <span id="monthLabel"
+        style="opacity:.85;font-size:12px;padding:4px 8px;border-radius:999px;
+               border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);">
+    —
+  </span>
+</div>
+
     </div>
 
     <div class="nav">
@@ -205,26 +234,24 @@
       <a class="tab" href="./view.html">閲覧</a>
       <a class="tab" href="./print.html" target="_blank" rel="noopener">PDF印刷</a>
 
-      <div style="width:1px; height:20px; background:rgba(255,255,255,0.2); margin:0 4px;"></div>
-
       <button class="btn small" id="prevMonth" title="前月">◀</button>
       <button class="btn small" id="nextMonth" title="次月">▶</button>
 
-      <button class="btn small" id="exportJson">JSON出力</button>
-      <button class="btn small" id="importJsonBtn">JSON取込</button>
+      <button class="btn small" id="exportJson" title="JSONで保存">JSON出力</button>
+      <button class="btn small" id="importJsonBtn" title="JSONを取り込み">JSON取込</button>
       <input id="jsonFile" type="file" accept="application/json" style="display:none;"/>
 
       <div class="chip">
         <span id="periodLabel">—</span>
-        <span id="saveStatus" style="opacity:.8; border-left:1px solid #64748b; padding-left:8px;">未保存</span>
+        <span id="saveStatus" style="opacity:.9;">未保存</span>
       </div>
     </div>
   </div>
 
   <div class="wrap">
-    <div class="card theme-summray">
+    <div class="card">
       <div class="summaryBox month">
-        <div class="cap"><span>●</span> 当月サマリー</div>
+        <div class="cap">当月サマリー</div>
         <div class="kpiGrid">
           <div class="mini"><div class="t">法人来場（提携合計）</div><div class="v" id="s_cv">0</div></div>
           <div class="mini"><div class="t">法人契約（提携合計）</div><div class="v" id="s_cc">0</div></div>
@@ -234,8 +261,8 @@
         </div>
       </div>
 
-      <div class="summaryBox cum" style="margin:0;">
-        <div class="cap"><span>●</span> 累計（〜当月）</div>
+      <div class="summaryBox cum" style="margin-top:12px;">
+        <div class="cap">累計（〜当月）</div>
         <div class="kpiGrid">
           <div class="mini"><div class="t">法人来場（累計）</div><div class="v" id="c_cv">0</div></div>
           <div class="mini"><div class="t">法人契約（累計）</div><div class="v" id="c_cc">0</div></div>
@@ -246,24 +273,29 @@
       </div>
     </div>
 
-    <div class="card theme-partners">
+    <div class="card">
       <div class="row" style="justify-content:space-between;">
-        <h3>現提携（活動・PR・単価）</h3>
-        <button class="btn primary small" id="addPartner">+ 行追加</button>
+        <h3 style="margin:0;">現提携（活動・PR・単価）</h3>
+        <div class="row">
+          <button class="btn primary" id="addPartner">行追加</button>
+        </div>
       </div>
 
       <div class="tbl" style="margin-top:10px;">
         <table>
+          <!-- ★備考削除：8列 / 100%に厳密フィット -->
           <colgroup>
-            <col style="width:30%;">
-            <col style="width:8%;">
-            <col style="width:8%;">
-            <col style="width:27%;">
-            <col style="width:9%;">
-            <col style="width:9%;">
-            <col style="width:9%;">
-            <col style="width:0%;">
+            <col style="width:30%;"> <!-- 企業名 -->
+            <col style="width:8%;">  <!-- 来場 -->
+            <col style="width:8%;">  <!-- 契約 -->
+            <col style="width:27%;"> <!-- PR内容 -->
+            <col style="width:9%;">  <!-- 費用 -->
+            <col style="width:9%;">  <!-- 特典額 -->
+            <col style="width:9%;">  <!-- 手数料 -->
+            <col style="width:0%;">  <!-- (不要) -->
+            <col style="width:0%;">  <!-- (不要) -->
           </colgroup>
+
           <thead>
             <tr>
               <th>企業名</th>
@@ -273,7 +305,7 @@
               <th>費用</th>
               <th>特典額</th>
               <th>手数料</th>
-              <th style="width:3%;"></th>
+              <th style="width:3%;"></th> <!-- 削除 -->
             </tr>
           </thead>
           <tbody id="partnerBody"></tbody>
@@ -281,20 +313,23 @@
       </div>
     </div>
 
-    <div class="card theme-planned">
+    <div class="card">
       <div class="row" style="justify-content:space-between;">
-        <h3>法人業務提携（予定・交渉中）</h3>
-        <button class="btn primary small" id="addPlanned" style="background:#22c55e;">+ 行追加</button>
+        <h3 style="margin:0;">法人業務提携（予定・交渉中）</h3>
+        <div class="row">
+          <button class="btn primary" id="addPlanned">行追加</button>
+        </div>
       </div>
 
       <div class="tbl" style="margin-top:10px;">
         <table>
           <colgroup>
-            <col style="width:28%;">
-            <col style="width:18%;">
-            <col style="width:48%;">
-            <col style="width:6%;">
+            <col style="width:28%;"> <!-- 企業名 -->
+            <col style="width:18%;"> <!-- 企業規模 -->
+            <col style="width:48%;"> <!-- 提案内容 -->
+            <col style="width:6%;">  <!-- 予定時期 -->
           </colgroup>
+
           <thead>
             <tr>
               <th>企業名</th>
@@ -313,8 +348,6 @@
 
 <script src="./common.js"></script>
 <script>
-  /* 元のロジックをそのまま維持しています 
-  */
   const $ = (id)=>document.getElementById(id);
   const nf = new Intl.NumberFormat("ja-JP");
 
@@ -327,7 +360,7 @@
 
   let state = loadState();
   state.meta = state.meta || {};
-  state.archive = state.archive || {}; 
+  state.archive = state.archive || {}; // { "YYYY-MM": { partners, planned, updatedAt } }
 
   function setSaveStatus(s){ $("saveStatus").textContent = s; }
   function markDirty(){ setSaveStatus("編集中…"); }
@@ -355,6 +388,7 @@
   }
 
   function defaultPartner(){
+    // 備考(note)は互換で残してOKだが、UIでは使わない
     return { name:"", property:"", visit:0, first:0, apply:0, contract:0, pr:"", cost:0, benefit:0, fee:0, note:"" };
   }
   function defaultPlanned(){
@@ -378,6 +412,8 @@
       state.partners = Array.isArray(arc.partners) ? arc.partners : [defaultPartner()];
       state.planned  = Array.isArray(arc.planned)  ? arc.planned  : [defaultPlanned()];
     }else{
+      // 新しい月（archive未作成）の初期化：
+      // 企業名/PR/備考などは引き継ぎ、数値はゼロで開始する（B仕様）
       const base = Array.isArray(state.partners) ? state.partners : [];
       state.partners = base.map(p=>{
         const row = defaultPartner();
@@ -409,6 +445,8 @@
     saveState(state);
   }
 
+  
+  // index側（抜粋提携先）の入力を、page2（現提携）の当月行へ自動反映
   function normalizeName(s){
     return String(s||"").trim().replace(/[\s　]+/g,"").toLowerCase();
   }
@@ -417,6 +455,7 @@
     const srcList = state.reportPartners;
     if(!Array.isArray(srcList) || srcList.length===0) return false;
 
+    // index側が入力した月と、page2で表示中の月が違う場合は反映しない（過去月を壊さない）
     const srcYM = String(state.reportPartnersYM||"").slice(0,7);
     if(srcYM && srcYM !== currentYM) return false;
 
@@ -459,13 +498,13 @@
     }
 
     if(changed){
-      persistMonth(); 
+      persistMonth(); // archiveへ保存（他の月に影響しない）
       setSaveStatus("保存済み");
     }
     return changed;
   }
 
-  function sumPartners(partners){
+function sumPartners(partners){
     const totalCost = (partners||[]).reduce((s,p)=> s + clamp0(p && p.cost), 0);
     const totalVisit = (partners||[]).reduce((s,p)=> s + clamp0(p && p.visit), 0);
     const totalContract = (partners||[]).reduce((s,p)=> s + clamp0(p && p.contract), 0);
@@ -510,20 +549,22 @@
   }
 
   function render(){
-    const ym = derivePeriodLabel(state.meta.periodStart); 
-    $("periodLabel").textContent = ym;
+  const ym = derivePeriodLabel(state.meta.periodStart); // "2025.12" の想定
+  $("periodLabel").textContent = ym;
 
-    const parts = String(ym).split(".");
-    if(parts.length === 2){
-      $("monthLabel").textContent = `${parts[0]}年${parts[1]}月`;
-    }else{
-      $("monthLabel").textContent = ym;
-    }
-
-    renderPartners();
-    renderPlanned();
-    computeSummary();
+  // 左側に「2025年12月」表記で表示
+  const parts = String(ym).split(".");
+  if(parts.length === 2){
+    $("monthLabel").textContent = `${parts[0]}年${parts[1]}月`;
+  }else{
+    $("monthLabel").textContent = ym;
   }
+
+  renderPartners();
+  renderPlanned();
+  computeSummary();
+}
+
 
   function renderPartners(){
     const tbody = $("partnerBody");
@@ -623,6 +664,7 @@
       .replaceAll("'","&#039;");
   }
 
+  /* --- JSON export/import --- */
   function downloadJson(obj){
     const name = `hb_report_backup_${currentYM}_${new Date().toISOString().slice(0,10)}.json`;
     const blob = new Blob([JSON.stringify(obj, null, 2)], {type:"application/json"});
@@ -664,13 +706,16 @@
   }
 
   window.addEventListener("load", ()=>{
-    fetch('./datalatest.json?v=' + new Date().getTime())
+
+fetch('./datalatest.json?v=' + new Date().getTime())
       .then(r => r.ok ? r.json() : null)
       .then(obj => {
         if(!obj) return;
+        // データを取り込んで保存
         const imported = normalizeImportedState(obj);
         saveState(imported);
         
+        // 再読み込みして画面更新
         state = loadState();
         state.archive = state.archive || {};
         ensureMonthData();
@@ -679,7 +724,7 @@
         setSaveStatus("データ読込完了");
       })
       .catch(e => console.log("読込スキップ:", e));
-
+    // ★★★ ここまで追加 ★★★
     ensureMonthData();
     syncFromIndexReportPartners();
     render();
