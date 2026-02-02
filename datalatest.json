@@ -10,7 +10,7 @@
   "perf": {
     "totalVisit": 147,
     "totalContract": 15,
-    "corpVisit": 16,
+    "corpVisit": 11,
     "corpContract": 2,
     "referralCards": 4
   },
@@ -30,7 +30,7 @@
   },
   "nextTarget": {
     "totalVisit": 150,
-    "totalContract": 0,
+    "totalContract": 25,
     "corpVisit": 14,
     "corpContract": 3,
     "referralCards": 4
@@ -112,23 +112,23 @@
   "reportPartners": [
     {
       "name": "ライジングサポート",
-      "property": "LP光が丘Ⅲ",
-      "visit": 1,
-      "contract": 0,
+      "property": "LP新松戸",
+      "visit": 4,
+      "contract": 1,
       "first": 0,
-      "apply": 0
+      "apply": 1
     },
     {
       "name": "日立リアルエステートパートナーズ",
-      "property": "LP瑞江Ⅹ",
-      "visit": 1,
+      "property": "LP北浦和Ⅶ",
+      "visit": 2,
       "contract": 1,
       "first": 0,
       "apply": 1
     },
     {
       "name": "ホンダ開発",
-      "property": "LP大宮ⅩⅣ",
+      "property": "",
       "visit": 1,
       "contract": 0,
       "first": 0,
@@ -136,10 +136,26 @@
     },
     {
       "name": "ベルス",
-      "property": "LP浦和神明、LP新松戸",
-      "visit": 2,
+      "property": "",
+      "visit": 1,
       "contract": 0,
       "first": 1,
+      "apply": 0
+    },
+    {
+      "name": "KDDI",
+      "property": "",
+      "visit": 2,
+      "contract": 0,
+      "first": 0,
+      "apply": 0
+    },
+    {
+      "name": "アクセンチュア",
+      "property": "",
+      "visit": 1,
+      "contract": 0,
+      "first": 0,
       "apply": 0
     }
   ],
